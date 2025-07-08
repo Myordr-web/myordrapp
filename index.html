@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyOrdr </title>
+  <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+  <meta name="description" content="MyOrdr - Track and manage your orders with ease">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=-apple-system:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+      * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+      }
+
+      body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+          background-color: #FFFFFF;
+          color: #000000;
+          line-height: 1.6;
+      }
+
+      .container {
+          max-width: 390px;
+          margin: 0 auto;
+          padding: 40px 20px;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+      }
+
+      .logo {
+          width: 150px;
+          height: 75px;
+          background-color: #f0f0f0;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #3A6B6B;
+          margin-bottom: 30px;
+          border: 2px solid #3A6B6B;
+      }
+
+      .title {
+          font-size: 34px;
+          font-weight: bold;
+          color: #000000;
+          margin-bottom: 15px;
+      }
+
+      .subtitle {
+          font-size: 18px;
+          color: #666;
+          margin-bottom: 40px;
+          line-height: 1.4;
+      }
+
+      .app-preview {
+          width: 100%;
+          max-width: 300px;
+          height: 200px;
+          background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+          border-radius: 15px;
+          margin-bottom: 40px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #666;
+          font-size: 16px;
+          border: 1px solid #e0e0e0;
+      }
+
+      .download-button {
+          background-color: #3A6B6B;
+          color: white;
+          padding: 15px 30px;
+          border: none;
+          border-radius: 10px;
+          font-size: 18px;
+          font-weight: 600;
+          text-decoration: none;
+          display: inline-block;
+          margin-bottom: 20px;
+          transition: background-color 0.3s ease;
+          cursor: pointer;
+      }
+
+      .download-button:hover {
+          background-color: #2d5555;
+      }
+
+      .features {
+          margin-top: 40px;
+          text-align: left;
+          width: 100%;
+      }
+
+      .feature {
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+          padding: 15px;
+          background-color: rgba(58, 107, 107, 0.1);
+          border-radius: 10px;
+      }
+
+      .feature-icon {
+          width: 40px;
+          height: 40px;
+          background-color: #3A6B6B;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 15px;
+          color: white;
+          font-weight: bold;
+      }
+
+      .feature-text {
+          flex: 1;
+      }
+
+      .feature-title {
+          font-weight: 600;
+          color: #000000;
+          margin-bottom: 5px;
+      }
+
+      .feature-description {
+          color: #666;
+          font-size: 14px;
+      }
+
+      .opening-message {
+          background-color: rgba(58, 107, 107, 0.1);
+          padding: 20px;
+          border-radius: 10px;
+          margin-bottom: 30px;
+          border-left: 4px solid #3A6B6B;
+      }
+
+      .opening-message h3 {
+          color: #3A6B6B;
+          margin-bottom: 10px;
+      }
+
+      .opening-message p {
+          color: #666;
+          font-size: 16px;
+      }
+
+      @media (min-width: 768px) {
+          .container {
+              max-width: 600px;
+              padding: 60px 40px;
+          }
+          
+          .title {
+              font-size: 48px;
+          }
+          
+          .subtitle {
+              font-size: 20px;
+          }
+      }
+
+      .smart-banner {
+          background-color: #f8f9fa;
+          border-bottom: 1px solid #e9ecef;
+          padding: 10px 20px;
+          text-align: center;
+          font-size: 14px;
+          color: #666;
+      }
+
+      .smart-banner.ios {
+          background-color: #007AFF;
+          color: white;
+      }
+
+      .smart-banner a {
+          color: inherit;
+          text-decoration: none;
+          font-weight: 600;
+      }
+  </style>
+</head>
+<body>
+  <!-- Smart App Banner for iOS -->
+  <div class="smart-banner ios" id="smartBanner" style="display: none;">
+      <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID">
+          📱 Open in MyOrdr App
+      </a>
+  </div>
+
+  <div class="container">
+      <!-- Logo -->
+      <div class="logo">
+          MyOrdr
+      </div>
+
+      <!-- Opening in App Message (shown briefly) -->
+      <div class="opening-message" id="openingMessage">
+          <h3>Opening in MyOrdr App...</h3>
+          <p>If the app doesn't open automatically, download it below!</p>
+      </div>
+
+      <!-- Main Content -->
+      <div id="mainContent" style="display: none;">
+          <h1 class="title">Welcome to MyOrdr</h1>
+          <p class="subtitle">Track and manage your orders with ease. Join thousands of users organizing their purchases.</p>
+
+          <!-- App Preview Mockup -->
+          <div class="app-preview">
+              📱 App Preview
+          </div>
+
+          <!-- Download Button -->
+          <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID" class="download-button">
+              Download MyOrdr
+          </a>
+
+          <!-- Features -->
+          <div class="features">
+              <div class="feature">
+                  <div class="feature-icon">📋</div>
+                  <div class="feature-text">
+                      <div class="feature-title">Order Tracking</div>
+                      <div class="feature-description">Keep track of all your orders in one place</div>
+                  </div>
+              </div>
+
+              <div class="feature">
+                  <div class="feature-icon">👥</div>
+                  <div class="feature-text">
+                      <div class="feature-title">Social Profiles</div>
+                      <div class="feature-description">Connect with friends and share your orders</div>
+                  </div>
+              </div>
+
+              <div class="feature">
+                  <div class="feature-icon">🔍</div>
+                  <div class="feature-text">
+                      <div class="feature-title">Smart Search</div>
+                      <div class="feature-description">Find orders and users quickly</div>
+                  </div>
+              </div>
+
+              <div class="feature">
+                  <div class="feature-icon">📊</div>
+                  <div class="feature-text">
+                      <div class="feature-title">Activity Feed</div>
+                      <div class="feature-description">Stay updated with your order activity</div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      // Show opening message initially
+      document.getElementById('openingMessage').style.display = 'block';
+      document.getElementById('mainContent').style.display = 'none';
+
+      // Show smart banner on iOS
+      if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+          document.getElementById('smartBanner').style.display = 'block';
+      }
+
+      // After 3 seconds, show main content and hide opening message
+      setTimeout(() => {
+          document.getElementById('openingMessage').style.display = 'none';
+          document.getElementById('mainContent').style.display = 'block';
+      }, 3000);
+
+      // Auto-redirect to App Store after 3 seconds (fallback)
+      setTimeout(() => {
+          // Only redirect if user is on mobile and hasn't interacted with the page
+          if (/iPad|iPhone|iPod|Android/.test(navigator.userAgent)) {
+              window.location.href = "https://apps.apple.com/app/myordr/YOUR_APP_ID";
+          }
+      }, 3000);
+  </script>
+</body>
+</html>
