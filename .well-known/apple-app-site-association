@@ -3,7 +3,7 @@
         "apps": [],
         "details": [
             {
-                "appID": "YP3QH2HCVV.MyOrdr.MyOrdr",
+                "appID":"YP3QH2HCVV.MyOrdr.MyOrdr",
                 "paths": [ "/u/*", "/order/*" ]
             }
         ]
