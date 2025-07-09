@@ -1,1 +1,16 @@
-/*    /index.html   200
+{
+  "routes": [
+    {
+      "path": "/u/*",
+      "serve": "/index.html"
+    },
+    {
+      "path": "/order/*",
+      "serve": "/index.html"
+    },
+    {
+      "path": "/*",
+      "serve": "/index.html"
+    }
+  ]
+}
