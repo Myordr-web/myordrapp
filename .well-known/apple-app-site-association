@@ -1,11 +1,17 @@
 {
-    "applinks": {
-        "apps": [],
-        "details": [
-            {
-                "appID":"YP3QH2HCVV.MyOrdr.MyOrdr",
-                "paths": [ "/u/*", "/order/*" ]
-            }
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "YP3QH2HCVV.MyOrdr.MyOrdr",
+        "paths": [
+          "/u/*",
+          "/order/*",
+          "/profile/*",
+          "/verify/*",
+          "/reset/*"
         ]
-    }
+      }
+    ]
+  }
 }
