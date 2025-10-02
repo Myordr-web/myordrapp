@@ -1,0 +1,20 @@
+
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.myordr.app",
+      "sha256_cert_fingerprints": [
+        "YOUR_ANDROID_APP_SHA256_FINGERPRINT_HERE"
+      ]
+    },
+    "include": [
+      "https://app.myordr.co/u/*",
+      "https://app.myordr.co/order/*",
+      "https://app.myordr.co/profile/*",
+      "https://app.myordr.co/v1/account/sessions/oauth2/callback/apple/*",
+      "https://app.myordr.co/verify",
+      "https://app.myordr.co/reset"
+    ]
+  }
+]
