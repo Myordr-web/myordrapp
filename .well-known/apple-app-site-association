@@ -8,6 +8,8 @@
           "/u/*",
           "/order/*",
           "/profile/*",
+          "/v1/account/sessions/oauth2/callback/google/*",
+          "/v1/account/sessions/oauth2/callback/apple/*",
           "/verify/*",
           "/reset/*"
         ]
