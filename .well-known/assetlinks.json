@@ -13,6 +13,8 @@
       "https://app.myordr.co/order/*",
       "https://app.myordr.co/profile/*",
       "https://app.myordr.co/v1/account/sessions/oauth2/callback/apple/*",
+      "https://console.myordr.co/v1/account/sessions/oauth2/callback/google/*",
+      "https://console.myordr.co/v1/account/sessions/oauth2/callback/apple/*",
       "https://app.myordr.co/verify",
       "https://app.myordr.co/reset"
     ]
