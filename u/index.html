@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyOrdr - User Profile</title>
+    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(58, 107, 107, 0.1);
+            border-radius: 15px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3A6B6B;
+            margin-bottom: 30px;
+        }
+
+        .profile-info {
+            margin-bottom: 20px;
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: 600;
+            color: #3A6B6B;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            background-color: #3A6B6B;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-button:hover {
+            background-color: #2d5555;
+        }
+
+        .fallback-message {
+            display: none;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">MyOrdr</div>
+        
+        <div class="profile-info">
+            <div class="username" id="username">User Profile</div>
+        </div>
+        
+        <div class="message" id="message">Opening profile in app...</div>
+        
+        <div class="fallback-message" id="fallback">
+            <p>Don't have the MyOrdr app yet?</p>
+            <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID" class="download-button" id="downloadBtn">
+                Download MyOrdr
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Function to extract username from URL
+        function getUsernameFromURL() {
+            const path = window.location.pathname;
+            console.log('Current path:', path);
+            
+            // Handle different URL patterns:
+            // /u/username
+            // /u/username/
+            // /u/ (fallback to 'user')
+            const segments = path.split('/').filter(segment => segment);
+            console.log('Path segments:', segments);
+            
+            if (segments.length >= 2 && segments[0] === 'u') {
+                return segments[1];
+            }
+            
+            // If we're at /u/ with no username, use a default
+            return 'user';
+        }
+        
+        // Get the username from the URL
+        const username = getUsernameFromURL();
+        console.log('Extracted username:', username);
+        
+        // Update the page with the username
+        document.getElementById('username').textContent = `@${username}`;
+        
+        // Try to open the app immediately
+        const appUrl = `myordr://u/${username}`;
+        console.log('Attempting to open app with URL:', appUrl);
+        
+        // Create a hidden link and click it to trigger the app
+        const appLink = document.createElement('a');
+        appLink.href = appUrl;
+        appLink.style.display = 'none';
+        document.body.appendChild(appLink);
+        appLink.click();
+        
+        // Show fallback options after a delay
+        let hasOpenedApp = false;
+        
+        // Listen for page visibility changes (app opening will hide the page)
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) {
+                hasOpenedApp = true;
+                console.log('Page became hidden - app likely opened');
+            }
+        });
+        
+        // Listen for beforeunload (app opening might trigger this)
+        window.addEventListener('beforeunload', function() {
+            hasOpenedApp = true;
+            console.log('Page unloading - app likely opened');
+        });
+        
+        // After 2 seconds, show fallback options if app hasn't opened
+        setTimeout(() => {
+            if (!hasOpenedApp) {
+                console.log('App did not open, showing fallback options');
+                document.getElementById('message').textContent = `Check out @${username}'s profile on MyOrdr!`;
+                document.getElementById('fallback').style.display = 'block';
+            }
+        }, 2000);
+        
+        // Auto-redirect to App Store after 5 seconds on mobile if app doesn't open
+        setTimeout(() => {
+            if (!hasOpenedApp && /iPad|iPhone|iPod|Android/.test(navigator.userAgent)) {
+                console.log('Redirecting to App Store');
+                window.location.href = "https://apps.apple.com/app/myordr/YOUR_APP_ID";
+            }
+        }, 5000);
+        
+        // Update download button to include referral info
+        document.getElementById('downloadBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            // You can add analytics tracking here
+            console.log(`User clicked download from ${username}'s profile page`);
+            window.location.href = `https://apps.apple.com/app/myordr/YOUR_APP_ID?pt=referral_${username}`;
+        });
+    </script>
+</body>
+</html>

@@ -12,11 +12,11 @@
       "https://app.myordr.co/u/*",
       "https://app.myordr.co/order/*",
       "https://app.myordr.co/profile/*",
-      "https://app.myordr.co/v1/account/sessions/oauth2/callback/apple/*",
-      "https://console.myordr.co/v1/account/sessions/oauth2/callback/google/*",
-      "https://console.myordr.co/v1/account/sessions/oauth2/callback/apple/*",
-      "https://app.myordr.co/verify",
-      "https://app.myordr.co/reset"
+      "https://app.myordr.co/auth/*",
+      "https://app.myordr.co/reset-password/*",
+      "https://app.myordr.co/password-reset/*",
+      "https://app.myordr.co/successredirect",
+      "https://app.myordr.co/verify/*"
     ]
   }
 ]

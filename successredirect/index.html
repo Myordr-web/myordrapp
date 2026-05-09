@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In Successful - MyOrdr</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2rem;
+        }
+        p {
+            margin: 0 0 2rem 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="success-icon">✅</div>
+        <h1>Sign In Successful!</h1>
+        <p>You have been successfully signed in to MyOrdr.</p>
+        <div class="loading"></div>
+        <p>Redirecting you back to the app...</p>
+    </div>
+
+    <script>
+        console.log('=== OAuth Redirect Page Loaded ===');
+        console.log('Current URL:', window.location.href);
+        console.log('Referrer:', document.referrer);
+        console.log('Query string:', window.location.search);
+        console.log('Hash:', window.location.hash);
+        
+        // Extract userId and secret from URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get('userId');
+        let secret = urlParams.get('secret');
+        
+        // Also check hash/fragment (some OAuth flows use #)
+        if ((!userId || !secret) && window.location.hash) {
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            userId = userId || hashParams.get('userId');
+            secret = secret || hashParams.get('secret');
+            console.log('Found in hash - userId:', userId ? 'present' : 'missing', 'secret:', secret ? 'present' : 'missing');
+        }
+        
+        // CRITICAL: Check if the referrer is the Appwrite callback URL
+        // Appwrite redirects here AFTER processing, but the referrer might contain the callback URL with credentials
+        if ((!userId || !secret) && document.referrer) {
+            console.log('Checking referrer for credentials:', document.referrer);
+            try {
+                const referrerURL = new URL(document.referrer);
+                if (referrerURL.pathname.includes('/account/sessions/oauth2/callback/')) {
+                    const referrerParams = new URLSearchParams(referrerURL.search);
+                    userId = userId || referrerParams.get('userId');
+                    secret = secret || referrerParams.get('secret');
+                    console.log('Found in referrer - userId:', userId ? 'present' : 'missing', 'secret:', secret ? 'present' : 'missing');
+                }
+            } catch (e) {
+                console.error('Error parsing referrer:', e);
+            }
+        }
+        
+        // Try to extract from the full referrer URL string (fallback)
+        if ((!userId || !secret) && document.referrer) {
+            const referrerMatch = document.referrer.match(/[?&]userId=([^&]+)/);
+            if (referrerMatch) {
+                userId = decodeURIComponent(referrerMatch[1]);
+                console.log('Extracted userId from referrer string:', userId ? 'present' : 'missing');
+            }
+            const secretMatch = document.referrer.match(/[?&]secret=([^&]+)/);
+            if (secretMatch) {
+                secret = decodeURIComponent(secretMatch[1]);
+                console.log('Extracted secret from referrer string:', secret ? 'present' : 'missing');
+            }
+        }
+        
+        console.log('Final values - userId:', userId ? 'present' : 'missing', 'secret:', secret ? 'present' : 'missing');
+        
+        // Build the app redirect URL with parameters
+        let appUrl = 'myordr://oauth-success';
+        if (userId && secret) {
+            appUrl += `?userId=${encodeURIComponent(userId)}&secret=${encodeURIComponent(secret)}`;
+            console.log('✅ Redirecting to app with userId and secret');
+        } else {
+            console.warn('⚠️ Warning: userId or secret missing from URL');
+            console.warn('⚠️ This might mean Appwrite created the session server-side');
+            console.warn('⚠️ The app will try to check for an existing session');
+            appUrl += '?session_check=true';
+        }
+        
+        console.log('Redirecting to:', appUrl);
+        
+        // Try to redirect immediately
+        try {
+            window.location.href = appUrl;
+        } catch (e) {
+            console.error('Error redirecting:', e);
+        }
+        
+        // Fallback - try again after a short delay
+        setTimeout(() => {
+            try {
+                window.location.href = appUrl;
+            } catch (e) {
+                console.error('Error in fallback redirect:', e);
+            }
+        }, 500);
+        
+        // Additional fallback - try to close the window after 2 seconds
+        setTimeout(() => {
+            try {
+                window.close();
+            } catch (e) {
+                // Can't close window in some contexts
+            }
+        }, 2000);
+        
+        // Last resort - try to open the app URL one more time
+        setTimeout(() => {
+            try {
+                window.location.href = appUrl;
+            } catch (e) {
+                console.error('Error in final redirect attempt:', e);
+            }
+        }, 1500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="refresh" content="0; url=/reset-password/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyOrdr | Redirecting</title>
+  <script>
+    const next = `/reset-password/${window.location.search}${window.location.hash}`;
+    window.location.replace(next);
+  </script>
+</head>
+<body>
+  <p>Redirecting to the secure reset page...</p>
+</body>
+</html>

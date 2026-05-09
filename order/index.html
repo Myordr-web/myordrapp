@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyOrdr - Order Details</title>
+    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: #FFFFFF;
+            color: #000000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            padding: 40px;
+            background-color: rgba(58, 107, 107, 0.1);
+            border-radius: 15px;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3A6B6B;
+            margin-bottom: 30px;
+        }
+
+        .message {
+            font-size: 18px;
+            color: #000000;
+            margin-bottom: 20px;
+        }
+
+        .download-button {
+            background-color: #3A6B6B;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .download-button:hover {
+            background-color: #2d5555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">MyOrdr</div>
+        <div class="message">Opening order details in app...</div>
+        <p>Don't have the MyOrdr app yet?</p>
+        <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID" class="download-button">
+            Download MyOrdr
+        </a>
+    </div>
+
+    <script>
+        // Auto-redirect to App Store after 3 seconds if app doesn't open
+        setTimeout(() => {
+            window.location.href = "https://apps.apple.com/app/myordr/YOUR_APP_ID";
+        }, 3000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyOrdr | Reset Password</title>
+  <link rel="icon" href="/assets/Myordr_logo.png">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg: #f7f1e4;
+      --card: rgba(255, 253, 248, 0.94);
+      --ink: #18201b;
+      --muted: #5d665f;
+      --line: rgba(24, 32, 27, 0.12);
+      --accent: #3f7a67;
+      --danger: #9a3f32;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: linear-gradient(180deg, var(--bg) 0%, #eef3ee 100%);
+      color: var(--ink);
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+    }
+    .card {
+      width: min(100%, 520px);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 20px 50px rgba(24, 32, 27, 0.12);
+      padding: 32px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .brand img { width: 58px; height: 58px; border-radius: 16px; }
+    h1 { margin: 0 0 10px; }
+    p { margin: 0 0 18px; line-height: 1.65; color: var(--muted); }
+    label {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    input {
+      width: 100%;
+      min-height: 52px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      padding: 0 14px;
+      font: inherit;
+      margin-bottom: 14px;
+      background: white;
+    }
+    button, .link-button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 14px;
+      background: var(--accent);
+      color: white;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button:disabled { opacity: 0.65; cursor: wait; }
+    .secondary {
+      margin-top: 12px;
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+    }
+    .status {
+      min-height: 24px;
+      margin-top: 14px;
+      font-size: 0.95rem;
+    }
+    .error { color: var(--danger); }
+    .success { color: var(--accent); }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <img src="/assets/Myordr_logo.png" alt="MyOrdr logo">
+      <div>
+        <h1>Reset your password</h1>
+        <p>Use the link from your email to set a new password for MyOrdr.</p>
+      </div>
+    </div>
+
+    <form id="reset-form" class="hidden">
+      <label for="password">New password</label>
+      <input id="password" name="password" type="password" minlength="8" autocomplete="new-password" required>
+      <label for="confirm-password">Confirm password</label>
+      <input id="confirm-password" name="confirm-password" type="password" minlength="8" autocomplete="new-password" required>
+      <button id="submit-button" type="submit">Save new password</button>
+      <a class="link-button secondary" href="myordr://login">Open MyOrdr</a>
+    </form>
+
+    <div id="loading-state">
+      <p>Checking your recovery link and preparing a secure session.</p>
+    </div>
+
+    <div id="done-state" class="hidden">
+      <p class="success">Your password was updated. You can head back into the app and sign in with the new password.</p>
+      <a class="link-button" href="myordr://login">Open MyOrdr</a>
+    </div>
+
+    <p id="status" class="status"></p>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://vzngpnmayviqvgojyzdn.supabase.co";
+    const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_Vl-lN_W4toFOhhvhiHKmcA_8i91ggSl";
+    const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    const loadingState = document.getElementById("loading-state");
+    const resetForm = document.getElementById("reset-form");
+    const doneState = document.getElementById("done-state");
+    const status = document.getElementById("status");
+    const submitButton = document.getElementById("submit-button");
+
+    function showStatus(message, kind) {
+      status.textContent = message;
+      status.className = `status ${kind || ""}`.trim();
+    }
+
+    async function prepareRecoverySession() {
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
+      const accessToken = hashParams.get("access_token");
+      const refreshToken = hashParams.get("refresh_token");
+      const type = hashParams.get("type");
+
+      if (accessToken && refreshToken) {
+        const { error } = await client.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        });
+        if (error) {
+          throw error;
+        }
+      } else {
+        const { data, error } = await client.auth.getSession();
+        if (error) {
+          throw error;
+        }
+        if (!data.session) {
+          throw new Error("This recovery link is missing a valid session. Request a new reset email and try again.");
+        }
+      }
+
+      if (type && type !== "recovery") {
+        showStatus("This link is valid, but it is not a password recovery link.", "error");
+      }
+
+      loadingState.classList.add("hidden");
+      resetForm.classList.remove("hidden");
+    }
+
+    resetForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const password = document.getElementById("password").value;
+      const confirmPassword = document.getElementById("confirm-password").value;
+
+      if (password.length < 8) {
+        showStatus("Use at least 8 characters for your new password.", "error");
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showStatus("Those passwords do not match yet.", "error");
+        return;
+      }
+
+      submitButton.disabled = true;
+      showStatus("Updating your password...", "");
+
+      const { error } = await client.auth.updateUser({ password });
+
+      submitButton.disabled = false;
+
+      if (error) {
+        showStatus(error.message || "We could not update your password. Try requesting a fresh reset link.", "error");
+        return;
+      }
+
+      resetForm.classList.add("hidden");
+      doneState.classList.remove("hidden");
+      showStatus("", "");
+    });
+
+    prepareRecoverySession().catch((error) => {
+      loadingState.classList.add("hidden");
+      showStatus(error.message || "This recovery link could not be verified. Request a new reset email and try again.", "error");
+    });
+  </script>
+</body>
+</html>
