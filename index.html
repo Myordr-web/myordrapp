@@ -256,12 +256,12 @@
     }
 
     .shot-primary {
-      top: 0;
-      right: 0;
+      top: 18px;
+      right: 8px;
       z-index: 1;
-      width: min(520px, 90%);
-      height: 700px;
-      transform: rotate(1.5deg);
+      width: min(500px, 88%);
+      height: 660px;
+      transform: rotate(1.25deg);
     }
 
     .shot-primary img {
@@ -269,13 +269,13 @@
     }
 
     .shot-secondary {
-      left: 4px;
-      bottom: 38px;
-      z-index: 4;
-      width: min(250px, 46%);
-      height: 430px;
+      left: 12px;
+      bottom: 28px;
+      z-index: 3;
+      width: min(300px, 52%);
+      height: 520px;
       border-radius: 34px;
-      transform: rotate(-7deg);
+      transform: rotate(-6deg);
     }
 
     .shot-secondary img {
@@ -285,12 +285,12 @@
     .order-pop {
       position: absolute;
       z-index: 5;
-      width: 190px;
+      width: 170px;
       padding: 0;
-      border-radius: 26px;
+      border-radius: 24px;
       background: transparent;
       color: #f3f5ef;
-      box-shadow: 0 22px 40px rgba(17, 30, 20, 0.24);
+      box-shadow: 0 22px 40px rgba(17, 30, 20, 0.22);
     }
 
     .order-pop img {
@@ -299,21 +299,47 @@
     }
 
     .pop-chipotle {
-      left: 52px;
-      top: 112px;
+      left: 36px;
+      top: 92px;
       transform: rotate(-2deg);
     }
 
     .pop-starbucks {
-      right: 8px;
-      bottom: 96px;
+      right: 18px;
+      bottom: 154px;
       transform: rotate(2deg);
     }
 
     .pop-panda {
-      left: 268px;
-      bottom: 28px;
+      left: 306px;
+      bottom: 42px;
       transform: rotate(-1deg);
+    }
+
+    .send-card {
+      position: absolute;
+      right: 18px;
+      top: 88px;
+      z-index: 4;
+      width: 196px;
+      padding: 0;
+      border-radius: 0;
+      background: transparent;
+      border: 0;
+      box-shadow: none;
+      transform: rotate(3deg);
+    }
+
+    .send-bubble {
+      display: block;
+      padding: 10px 12px;
+      border-radius: 18px 18px 6px 18px;
+      background: #348fee;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 800;
+      line-height: 1.25;
+      box-shadow: 0 16px 28px rgba(31, 84, 145, 0.24);
     }
 
     .footer {
@@ -352,7 +378,7 @@
       }
 
       .showcase {
-        min-height: 760px;
+        min-height: 780px;
       }
 
       .shot-primary {
@@ -396,40 +422,50 @@
       }
 
       .showcase {
-        min-height: 790px;
+        min-height: 820px;
       }
 
       .shot-primary {
         left: auto;
         right: 0;
         width: min(100%, 350px);
-        height: 560px;
+        height: 540px;
       }
 
       .shot-secondary {
         left: 0;
-        bottom: 188px;
-        width: min(58%, 220px);
-        height: 330px;
+        bottom: 168px;
+        width: min(64%, 230px);
+        height: 360px;
       }
 
       .order-pop {
-        width: 148px;
+        width: 138px;
       }
 
       .pop-chipotle {
         left: 0;
-        top: 92px;
+        top: 86px;
       }
 
       .pop-starbucks {
         right: 0;
-        bottom: 42px;
+        bottom: 48px;
       }
 
       .pop-panda {
-        left: 42px;
-        bottom: 118px;
+        left: 36px;
+        bottom: 134px;
+      }
+
+      .send-card {
+        right: 0;
+        top: 28px;
+        width: 176px;
+      }
+
+      .send-bubble {
+        font-size: 0.8rem;
       }
     }
   </style>
@@ -476,6 +512,10 @@
 
               <div class="order-pop pop-chipotle">
                 <img src="/assets/order-chipotle.png" alt="Chipotle order card">
+              </div>
+
+              <div class="send-card">
+                <span class="send-bubble">it's on my MyOrdr</span>
               </div>
 
               <div class="order-pop pop-panda">
