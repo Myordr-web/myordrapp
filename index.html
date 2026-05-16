@@ -98,22 +98,14 @@
 
     .brand {
       display: inline-flex;
-      flex-direction: column;
-      gap: 3px;
+      align-items: center;
+      min-height: 58px;
     }
 
-    .brand-wordmark {
-      font-family: "Space Grotesk", "Inter", sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.05em;
-    }
-
-    .brand-subtitle {
-      color: var(--muted);
-      font-size: 0.84rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+    .brand-logo {
+      width: clamp(116px, 12vw, 158px);
+      height: auto;
+      filter: drop-shadow(0 12px 18px rgba(19, 31, 20, 0.12));
     }
 
     .nav-links {
@@ -167,8 +159,8 @@
       position: relative;
       z-index: 1;
       display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
-      gap: 34px;
+      grid-template-columns: minmax(0, 0.88fr) minmax(470px, 1.12fr);
+      gap: 44px;
       align-items: center;
     }
 
@@ -219,6 +211,7 @@
       border: 1px solid transparent;
       font: inherit;
       font-weight: 800;
+      white-space: nowrap;
       box-shadow: 0 16px 30px rgba(31, 73, 53, 0.16);
       transition: transform 0.16s ease, box-shadow 0.16s ease, background 0.16s ease;
     }
@@ -243,16 +236,17 @@
 
     .showcase {
       position: relative;
-      min-height: 780px;
+      min-height: 720px;
+      isolation: isolate;
     }
 
     .shot {
       position: absolute;
       overflow: hidden;
-      border-radius: 34px;
+      border-radius: 42px;
       border: 1px solid rgba(21, 33, 22, 0.08);
-      box-shadow: var(--shadow-lg);
-      background: rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow-xl);
+      background: rgba(255, 255, 255, 0.76);
     }
 
     .shot img {
@@ -264,9 +258,10 @@
     .shot-primary {
       top: 0;
       right: 0;
-      width: min(430px, 100%);
+      z-index: 1;
+      width: min(520px, 90%);
       height: 700px;
-      transform: rotate(1deg);
+      transform: rotate(1.5deg);
     }
 
     .shot-primary img {
@@ -274,11 +269,13 @@
     }
 
     .shot-secondary {
-      left: 28px;
-      bottom: 24px;
-      width: min(290px, 55%);
-      height: 450px;
-      transform: rotate(-6deg);
+      left: 4px;
+      bottom: 38px;
+      z-index: 4;
+      width: min(250px, 46%);
+      height: 430px;
+      border-radius: 34px;
+      transform: rotate(-7deg);
     }
 
     .shot-secondary img {
@@ -287,57 +284,36 @@
 
     .order-pop {
       position: absolute;
-      width: 214px;
-      padding: 12px 12px 14px;
-      border-radius: 24px;
-      background: rgba(16, 34, 19, 0.96);
+      z-index: 5;
+      width: 190px;
+      padding: 0;
+      border-radius: 26px;
+      background: transparent;
       color: #f3f5ef;
-      box-shadow: 0 18px 34px rgba(17, 30, 20, 0.2);
+      box-shadow: 0 22px 40px rgba(17, 30, 20, 0.24);
     }
 
     .order-pop img {
       width: 100%;
-      border-radius: 18px;
-    }
-
-    .order-pop strong {
-      display: block;
-      margin-top: 14px;
-      font-size: 1.06rem;
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-    }
-
-    .order-pop span {
-      display: block;
-      margin-top: 5px;
-      color: rgba(243, 245, 239, 0.72);
-      font-size: 0.92rem;
+      border-radius: inherit;
     }
 
     .pop-chipotle {
-      left: 0;
-      top: 136px;
+      left: 52px;
+      top: 112px;
+      transform: rotate(-2deg);
     }
 
     .pop-starbucks {
-      right: 18px;
-      bottom: 38px;
+      right: 8px;
+      bottom: 96px;
+      transform: rotate(2deg);
     }
 
     .pop-panda {
-      left: 146px;
-      bottom: 116px;
-    }
-
-    .closing {
-      position: relative;
-      z-index: 1;
-      margin-top: 28px;
-      max-width: 720px;
-      color: var(--muted);
-      font-size: 1rem;
-      line-height: 1.75;
+      left: 268px;
+      bottom: 28px;
+      transform: rotate(-1deg);
     }
 
     .footer {
@@ -376,23 +352,34 @@
       }
 
       .showcase {
-        min-height: 980px;
+        min-height: 760px;
       }
 
       .shot-primary {
-        right: auto;
-        left: 190px;
+        right: 0;
+        left: auto;
       }
     }
 
     @media (max-width: 720px) {
       .nav {
-        align-items: flex-start;
-        flex-direction: column;
+        align-items: center;
+        flex-direction: row;
       }
 
       .nav-links {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        justify-content: flex-end;
+        gap: 4px;
+      }
+
+      .nav-links a {
+        padding: 9px 8px;
+      }
+
+      .button {
+        width: 100%;
+        font-size: 0.95rem;
       }
 
       .hero {
@@ -409,7 +396,7 @@
       }
 
       .showcase {
-        min-height: 1080px;
+        min-height: 790px;
       }
 
       .shot-primary {
@@ -421,32 +408,28 @@
 
       .shot-secondary {
         left: 0;
-        bottom: 300px;
-        width: min(68%, 240px);
-        height: 320px;
+        bottom: 188px;
+        width: min(58%, 220px);
+        height: 330px;
       }
 
       .order-pop {
-        width: 168px;
-        padding: 10px 10px 12px;
-      }
-
-      .order-pop strong {
-        font-size: 0.96rem;
+        width: 148px;
       }
 
       .pop-chipotle {
-        top: 112px;
+        left: 0;
+        top: 92px;
       }
 
       .pop-starbucks {
         right: 0;
-        bottom: 82px;
+        bottom: 42px;
       }
 
       .pop-panda {
-        left: 18px;
-        bottom: 210px;
+        left: 42px;
+        bottom: 118px;
       }
     }
   </style>
@@ -455,8 +438,7 @@
   <header class="topbar">
     <div class="wrap nav">
       <a class="brand" href="/">
-        <span class="brand-wordmark">MyOrdr</span>
-        <span class="brand-subtitle">Save the exact order</span>
+        <img class="brand-logo" src="/assets/Myordr_logo.png" alt="MyOrdr">
       </a>
       <nav class="nav-links">
         <a href="/support/">Support</a>
@@ -494,28 +476,17 @@
 
               <div class="order-pop pop-chipotle">
                 <img src="/assets/order-chipotle.png" alt="Chipotle order card">
-                <strong>Chipotle Mexican Grill</strong>
-                <span>exact bowl</span>
               </div>
 
               <div class="order-pop pop-panda">
                 <img src="/assets/order-panda.png" alt="Panda Express order card">
-                <strong>Panda Express</strong>
-                <span>orange chicken run</span>
               </div>
 
               <div class="order-pop pop-starbucks">
                 <img src="/assets/order-starbucks.png" alt="Starbucks order card">
-                <strong>Starbucks</strong>
-                <span>morning fix</span>
               </div>
             </div>
           </div>
-
-          <p class="closing">
-            Build a profile that people can actually use, save the orders that matter, and make
-            gifting, group chats, and food runs feel a lot less random.
-          </p>
         </div>
       </div>
     </section>
