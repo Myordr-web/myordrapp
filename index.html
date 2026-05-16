@@ -9,11 +9,11 @@
   <meta property="og:title" content="MyOrdr | Share and Save Go-To Orders">
   <meta property="og:description" content="Know everyone's go-to. Save favorites, follow friends, and share perfect orders.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="/assets/profile-live.png">
+  <meta property="og:image" content="/assets/hero-collage.png">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="MyOrdr | Share and Save Go-To Orders">
   <meta name="twitter:description" content="Know everyone's go-to. Save favorites, follow friends, and share perfect orders.">
-  <meta name="twitter:image" content="/assets/profile-live.png">
+  <meta name="twitter:image" content="/assets/hero-collage.png">
   <link rel="icon" href="/assets/Myordr_logo.png">
   <style>
     @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap");
@@ -236,110 +236,16 @@
 
     .showcase {
       position: relative;
-      min-height: 720px;
-      isolation: isolate;
-    }
-
-    .shot {
-      position: absolute;
-      overflow: hidden;
-      border-radius: 42px;
-      border: 1px solid rgba(21, 33, 22, 0.08);
-      box-shadow: var(--shadow-xl);
-      background: rgba(255, 255, 255, 0.76);
-    }
-
-    .shot img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
+      display: grid;
+      place-items: center;
     }
 
-    .shot-primary {
-      top: 18px;
-      right: 8px;
-      z-index: 1;
-      width: min(500px, 88%);
-      height: 660px;
-      transform: rotate(1.25deg);
-    }
-
-    .shot-primary img {
-      object-position: center top;
-    }
-
-    .shot-secondary {
-      left: 12px;
-      bottom: 28px;
-      z-index: 3;
-      width: min(300px, 52%);
-      height: 520px;
-      border-radius: 34px;
-      transform: rotate(-6deg);
-    }
-
-    .shot-secondary img {
-      object-position: center top;
-    }
-
-    .order-pop {
-      position: absolute;
-      z-index: 5;
-      width: 170px;
-      padding: 0;
-      border-radius: 24px;
-      background: transparent;
-      color: #f3f5ef;
-      box-shadow: 0 22px 40px rgba(17, 30, 20, 0.22);
-    }
-
-    .order-pop img {
-      width: 100%;
-      border-radius: inherit;
-    }
-
-    .pop-chipotle {
-      left: 36px;
-      top: 92px;
-      transform: rotate(-2deg);
-    }
-
-    .pop-starbucks {
-      right: 18px;
-      bottom: 154px;
-      transform: rotate(2deg);
-    }
-
-    .pop-panda {
-      left: 306px;
-      bottom: 42px;
-      transform: rotate(-1deg);
-    }
-
-    .send-card {
-      position: absolute;
-      right: 18px;
-      top: 88px;
-      z-index: 4;
-      width: 196px;
-      padding: 0;
-      border-radius: 0;
-      background: transparent;
-      border: 0;
-      box-shadow: none;
-      transform: rotate(3deg);
-    }
-
-    .send-bubble {
-      display: block;
-      padding: 10px 12px;
-      border-radius: 18px 18px 6px 18px;
-      background: #348fee;
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: 800;
-      line-height: 1.25;
-      box-shadow: 0 16px 28px rgba(31, 84, 145, 0.24);
+    .hero-collage {
+      width: min(100%, 620px);
+      height: auto;
+      border-radius: 30px;
+      filter: drop-shadow(0 28px 46px rgba(19, 31, 20, 0.16));
     }
 
     .footer {
@@ -378,12 +284,7 @@
       }
 
       .showcase {
-        min-height: 780px;
-      }
-
-      .shot-primary {
-        right: 0;
-        left: auto;
+        margin-top: 10px;
       }
     }
 
@@ -422,50 +323,11 @@
       }
 
       .showcase {
-        min-height: 820px;
+        margin-top: 18px;
       }
 
-      .shot-primary {
-        left: auto;
-        right: 0;
-        width: min(100%, 350px);
-        height: 540px;
-      }
-
-      .shot-secondary {
-        left: 0;
-        bottom: 168px;
-        width: min(64%, 230px);
-        height: 360px;
-      }
-
-      .order-pop {
-        width: 138px;
-      }
-
-      .pop-chipotle {
-        left: 0;
-        top: 86px;
-      }
-
-      .pop-starbucks {
-        right: 0;
-        bottom: 48px;
-      }
-
-      .pop-panda {
-        left: 36px;
-        bottom: 134px;
-      }
-
-      .send-card {
-        right: 0;
-        top: 28px;
-        width: 176px;
-      }
-
-      .send-bubble {
-        font-size: 0.8rem;
+      .hero-collage {
+        border-radius: 22px;
       }
     }
   </style>
@@ -502,29 +364,7 @@
             </div>
 
             <div class="showcase">
-              <div class="shot shot-primary">
-                <img src="/assets/profile-live.png" alt="MyOrdr profile view">
-              </div>
-
-              <div class="shot shot-secondary">
-                <img src="/assets/find-live.png" alt="MyOrdr find orders view">
-              </div>
-
-              <div class="order-pop pop-chipotle">
-                <img src="/assets/order-chipotle.png" alt="Chipotle order card">
-              </div>
-
-              <div class="send-card">
-                <span class="send-bubble">it's on my MyOrdr</span>
-              </div>
-
-              <div class="order-pop pop-panda">
-                <img src="/assets/order-panda.png" alt="Panda Express order card">
-              </div>
-
-              <div class="order-pop pop-starbucks">
-                <img src="/assets/order-starbucks.png" alt="Starbucks order card">
-              </div>
+              <img class="hero-collage" src="/assets/hero-collage.png" alt="MyOrdr app profile and order cards">
             </div>
           </div>
         </div>
