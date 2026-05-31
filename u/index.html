@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyOrdr - User Profile</title>
-    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+    <meta name="apple-itunes-app" content="app-id=6746293263, app-argument=https://app.myordr.co/u/">
     <style>
         * {
             margin: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #FFFFFF;
-            color: #000000;
+            background: linear-gradient(180deg, #f7f1e4 0%, #eef3ee 100%);
+            color: #18201b;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -24,49 +24,65 @@
         }
 
         .container {
-            max-width: 400px;
+            max-width: 440px;
             width: 100%;
             text-align: center;
             padding: 40px;
-            background-color: rgba(58, 107, 107, 0.1);
-            border-radius: 15px;
+            background: rgba(255, 253, 248, 0.94);
+            border: 1px solid rgba(24, 32, 27, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(24, 32, 27, 0.1);
         }
 
         .logo {
             font-size: 32px;
             font-weight: bold;
             color: #3A6B6B;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .profile-info {
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .username {
             font-size: 24px;
-            font-weight: 600;
+            font-weight: 700;
             color: #3A6B6B;
-            margin-bottom: 10px;
         }
 
         .message {
             font-size: 18px;
-            color: #000000;
-            margin-bottom: 20px;
+            color: #18201b;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #5d665f;
+            line-height: 1.6;
+        }
+
+        .store-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
         }
 
         .download-button {
             background-color: #3A6B6B;
             color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
+            padding: 15px 18px;
+            border: 1px solid transparent;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
             transition: background-color 0.3s ease;
         }
 
@@ -74,9 +90,14 @@
             background-color: #2d5555;
         }
 
+        .download-button.secondary {
+            background: white;
+            color: #18201b;
+            border-color: rgba(24, 32, 27, 0.12);
+        }
+
         .fallback-message {
             display: none;
-            color: #666;
             margin-top: 10px;
         }
     </style>
@@ -84,101 +105,79 @@
 <body>
     <div class="container">
         <div class="logo">MyOrdr</div>
-        
         <div class="profile-info">
             <div class="username" id="username">User Profile</div>
         </div>
-        
         <div class="message" id="message">Opening profile in app...</div>
-        
         <div class="fallback-message" id="fallback">
-            <p>Don't have the MyOrdr app yet?</p>
-            <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID" class="download-button" id="downloadBtn">
-                Download MyOrdr
-            </a>
+            <p>Don't have MyOrdr yet? Download the app to view shared profiles and save exact orders.</p>
+            <div class="store-actions">
+                <a href="https://apps.apple.com/us/app/myordr/id6746293263" class="download-button">Apple App Store</a>
+                <a href="https://play.google.com/store/apps/details?id=com.myordr.app.myordr_flutter&amp;pcampaignid=web_share" class="download-button secondary">Google Play</a>
+            </div>
         </div>
     </div>
 
     <script>
-        // Function to extract username from URL
+        const appStoreUrl = "https://apps.apple.com/us/app/myordr/id6746293263";
+        const playStoreUrl = "https://play.google.com/store/apps/details?id=com.myordr.app.myordr_flutter&pcampaignid=web_share";
+
+        function fallbackStoreUrl() {
+            const agent = navigator.userAgent || "";
+            if (/Android/i.test(agent)) return playStoreUrl;
+            if (/iPad|iPhone|iPod/i.test(agent)) return appStoreUrl;
+            return null;
+        }
+
         function getUsernameFromURL() {
-            const path = window.location.pathname;
-            console.log('Current path:', path);
-            
-            // Handle different URL patterns:
-            // /u/username
-            // /u/username/
-            // /u/ (fallback to 'user')
-            const segments = path.split('/').filter(segment => segment);
-            console.log('Path segments:', segments);
-            
-            if (segments.length >= 2 && segments[0] === 'u') {
+            const params = new URLSearchParams(window.location.search);
+            const queryId = params.get('id') || params.get('user') || params.get('profile');
+            if (queryId) return queryId;
+
+            const hashId = window.location.hash.replace(/^#\/?/, '');
+            if (hashId) return hashId;
+
+            const segments = window.location.pathname.split('/').filter(Boolean);
+            if (segments.length >= 2 && (segments[0] === 'u' || segments[0] === 'profile')) {
                 return segments[1];
             }
-            
-            // If we're at /u/ with no username, use a default
             return 'user';
         }
-        
-        // Get the username from the URL
+
         const username = getUsernameFromURL();
-        console.log('Extracted username:', username);
-        
-        // Update the page with the username
         document.getElementById('username').textContent = `@${username}`;
-        
-        // Try to open the app immediately
+
         const appUrl = `myordr://u/${username}`;
-        console.log('Attempting to open app with URL:', appUrl);
-        
-        // Create a hidden link and click it to trigger the app
         const appLink = document.createElement('a');
         appLink.href = appUrl;
         appLink.style.display = 'none';
         document.body.appendChild(appLink);
         appLink.click();
-        
-        // Show fallback options after a delay
+
         let hasOpenedApp = false;
-        
-        // Listen for page visibility changes (app opening will hide the page)
         document.addEventListener('visibilitychange', function() {
-            if (document.hidden) {
-                hasOpenedApp = true;
-                console.log('Page became hidden - app likely opened');
-            }
+            if (document.hidden) hasOpenedApp = true;
         });
-        
-        // Listen for beforeunload (app opening might trigger this)
         window.addEventListener('beforeunload', function() {
             hasOpenedApp = true;
-            console.log('Page unloading - app likely opened');
         });
-        
-        // After 2 seconds, show fallback options if app hasn't opened
+        window.addEventListener('pagehide', function() {
+            hasOpenedApp = true;
+        });
+
         setTimeout(() => {
             if (!hasOpenedApp) {
-                console.log('App did not open, showing fallback options');
                 document.getElementById('message').textContent = `Check out @${username}'s profile on MyOrdr!`;
                 document.getElementById('fallback').style.display = 'block';
             }
         }, 2000);
-        
-        // Auto-redirect to App Store after 5 seconds on mobile if app doesn't open
+
         setTimeout(() => {
-            if (!hasOpenedApp && /iPad|iPhone|iPod|Android/.test(navigator.userAgent)) {
-                console.log('Redirecting to App Store');
-                window.location.href = "https://apps.apple.com/app/myordr/YOUR_APP_ID";
+            const storeUrl = fallbackStoreUrl();
+            if (!hasOpenedApp && storeUrl) {
+                window.location.href = storeUrl;
             }
         }, 5000);
-        
-        // Update download button to include referral info
-        document.getElementById('downloadBtn').addEventListener('click', function(e) {
-            e.preventDefault();
-            // You can add analytics tracking here
-            console.log(`User clicked download from ${username}'s profile page`);
-            window.location.href = `https://apps.apple.com/app/myordr/YOUR_APP_ID?pt=referral_${username}`;
-        });
     </script>
 </body>
 </html>

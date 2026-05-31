@@ -1,22 +1,12 @@
-
+[
   {
     "relation": ["delegate_permission/common.handle_all_urls"],
     "target": {
       "namespace": "android_app",
-      "package_name": "com.myordr.app",
+      "package_name": "com.myordr.app.myordr_flutter",
       "sha256_cert_fingerprints": [
         "YOUR_ANDROID_APP_SHA256_FINGERPRINT_HERE"
       ]
-    },
-    "include": [
-      "https://app.myordr.co/u/*",
-      "https://app.myordr.co/order/*",
-      "https://app.myordr.co/profile/*",
-      "https://app.myordr.co/auth/*",
-      "https://app.myordr.co/reset-password/*",
-      "https://app.myordr.co/password-reset/*",
-      "https://app.myordr.co/successredirect",
-      "https://app.myordr.co/verify/*"
-    ]
+    }
   }
 ]

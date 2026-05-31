@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyOrdr - Order Details</title>
-    <meta name="apple-itunes-app" content="app-id=YOUR_APP_ID">
+    <meta name="apple-itunes-app" content="app-id=6746293263, app-argument=https://app.myordr.co/order/">
     <style>
         * {
             margin: 0;
@@ -14,8 +14,8 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #FFFFFF;
-            color: #000000;
+            background: linear-gradient(180deg, #f7f1e4 0%, #eef3ee 100%);
+            color: #18201b;
             min-height: 100vh;
             display: flex;
             align-items: center;
@@ -24,60 +24,127 @@
         }
 
         .container {
-            max-width: 400px;
+            max-width: 440px;
             width: 100%;
             text-align: center;
             padding: 40px;
-            background-color: rgba(58, 107, 107, 0.1);
-            border-radius: 15px;
+            background: rgba(255, 253, 248, 0.94);
+            border: 1px solid rgba(24, 32, 27, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(24, 32, 27, 0.1);
         }
 
         .logo {
             font-size: 32px;
             font-weight: bold;
             color: #3A6B6B;
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
         .message {
             font-size: 18px;
-            color: #000000;
-            margin-bottom: 20px;
+            color: #18201b;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: #5d665f;
+            line-height: 1.6;
+        }
+
+        .store-actions {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
         }
 
         .download-button {
             background-color: #3A6B6B;
             color: white;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
+            padding: 15px 18px;
+            border: 1px solid transparent;
+            border-radius: 12px;
             font-size: 16px;
-            font-weight: 600;
+            font-weight: 700;
             text-decoration: none;
-            display: inline-block;
-            margin-top: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
             transition: background-color 0.3s ease;
         }
 
         .download-button:hover {
             background-color: #2d5555;
         }
+
+        .download-button.secondary {
+            background: white;
+            color: #18201b;
+            border-color: rgba(24, 32, 27, 0.12);
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="logo">MyOrdr</div>
-        <div class="message">Opening order details in app...</div>
-        <p>Don't have the MyOrdr app yet?</p>
-        <a href="https://apps.apple.com/app/myordr/YOUR_APP_ID" class="download-button">
-            Download MyOrdr
-        </a>
+        <div class="message" id="message">Opening order details in app...</div>
+        <p id="orderMeta">Loading your go-to...</p>
+        <p>Don't have MyOrdr yet? Get the app, then open this shared order.</p>
+        <div class="store-actions">
+            <a href="https://apps.apple.com/us/app/myordr/id6746293263" class="download-button">Apple App Store</a>
+            <a href="https://play.google.com/store/apps/details?id=com.myordr.app.myordr_flutter&amp;pcampaignid=web_share" class="download-button secondary">Google Play</a>
+        </div>
     </div>
 
     <script>
-        // Auto-redirect to App Store after 3 seconds if app doesn't open
+        const appStoreUrl = "https://apps.apple.com/us/app/myordr/id6746293263";
+        const playStoreUrl = "https://play.google.com/store/apps/details?id=com.myordr.app.myordr_flutter&pcampaignid=web_share";
+
+        function getOrderIdFromURL() {
+            const params = new URLSearchParams(window.location.search);
+            const queryId = params.get('id') || params.get('orderId');
+            if (queryId) return queryId;
+
+            const hashId = window.location.hash.replace(/^#\/?/, '');
+            if (hashId) return hashId;
+
+            const segments = window.location.pathname.split('/').filter(Boolean);
+            if (segments.length >= 2 && segments[0] === 'order') {
+                return segments[1];
+            }
+            return null;
+        }
+
+        function fallbackStoreUrl() {
+            const agent = navigator.userAgent || "";
+            if (/Android/i.test(agent)) return playStoreUrl;
+            if (/iPad|iPhone|iPod/i.test(agent)) return appStoreUrl;
+            return null;
+        }
+
+        let hasOpenedApp = false;
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden) hasOpenedApp = true;
+        });
+        window.addEventListener('pagehide', function() {
+            hasOpenedApp = true;
+        });
+
+        const orderId = getOrderIdFromURL();
+        if (orderId) {
+            document.getElementById('orderMeta').textContent = `Order ${orderId.slice(0, 8)}...`;
+            window.location.href = `myordr://order/${orderId}`;
+        }
+
         setTimeout(() => {
-            window.location.href = "https://apps.apple.com/app/myordr/YOUR_APP_ID";
+            if (!hasOpenedApp) {
+                document.getElementById('message').textContent = "Open this order after installing MyOrdr.";
+                const storeUrl = fallbackStoreUrl();
+                if (storeUrl) window.location.href = storeUrl;
+            }
         }, 3000);
     </script>
 </body>

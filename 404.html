@@ -5,6 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>MyOrdr | Page Not Found</title>
   <link rel="icon" href="/assets/Myordr_logo.png">
+  <script>
+    const segments = window.location.pathname.split('/').filter(Boolean);
+    if (segments.length >= 2) {
+      const route = segments[0].toLowerCase();
+      const id = segments[1];
+      const tail = window.location.search + window.location.hash;
+
+      if (route === "order") {
+        window.location.replace(`/order/?id=${encodeURIComponent(id)}${tail}`);
+      } else if (route === "u" || route === "profile") {
+        window.location.replace(`/u/?id=${encodeURIComponent(id)}${tail}`);
+      }
+    }
+  </script>
   <style>
     body {
       margin: 0;
